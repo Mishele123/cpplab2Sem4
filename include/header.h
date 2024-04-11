@@ -14,7 +14,7 @@ class HashTable
 			EMPTY, OCCUPIED, DELETED
 		} _status;
 
-		Pair() : _status(EMPTY) {}
+		Pair() : _status(Status::EMPTY) {}
 	};
 
 	std::vector<Pair> _data;
@@ -28,6 +28,8 @@ public:
 	Val* search(Key key);
 	bool erase(Key key);
 	int count(Key key) const;
+	void rehash();
+	double load_factor() const;
 };
 
 
@@ -53,10 +55,55 @@ void HashTable<Key, Val>::print() const
 {
 	for (const auto& pair : _data)
 	{
-		if (pair._status == Pair::OCCUPIED)
+		if (pair._status == Pair::Status::OCCUPIED)
 			std::cout << pair._key << " : " << pair._value << std::endl;
 	}
 }
+
+
+template <typename Key, typename Val>
+double HashTable<Key, Val>::load_factor() const
+{
+	size_t count = 0;
+	for (auto& pair : _data)
+	{
+		if (pair._status == Pair::Status::OCCUPIED)
+			count++;
+	}
+	return (double)count / _data.size();
+}
+
+
+template <typename Key, typename Val>
+void HashTable<Key, Val>::rehash()
+{
+	std::vector<Pair> newData(_data.size() * 2);
+	for (auto& pair : newData)
+	{
+		if (pair._status == Pair::Status::OCCUPED)
+		{
+			size_t index = HashFunction(pair._key);
+			while (newData[index]._status != Pair::Status::EMPTY)
+				index = (index + 1) % newData.size();
+			newData[index] = pair;
+		}
+	}
+	_data = newData;
+}
+
+
+template <typename Key, typename Val>
+void HashTable<Key, Val>::insert(Key key, Val value)
+{
+	if (load_factor() >= 0.7)
+	{
+		rehash();
+	}
+	size_t index = HashFunction(key);
+	size_t originalIndex = index;
+
+}
+
 
 size_t HashFunction(int key)
 {
