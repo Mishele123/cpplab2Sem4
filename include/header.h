@@ -135,3 +135,27 @@ bool HashTable<Key, Val>::contains(Val value) const
 	}
 	return false;
 }
+
+template <typename Key, typename Val>
+void HashTable<Key, Val>::insert_or_assign(Key key, Val value)
+{
+	if (load_factor() >= 0.7)
+	{
+		rehash();
+	}
+	bool flag = false;
+	size_t index = HashFunction(key);
+	while (_data[index]._status == Pair::Status::OCCUPIED || _data[index]._status == Pair::Status::DELETED) 
+	{
+		if (_data[index]._status == Pair::Status::OCCUPIED && _data[index]._key == key) 
+		{
+			_data[index]._value = value;
+			flag = true;
+		}
+		index = (index + 1) % _data.size();
+	}
+	if (flag == true) return;
+	_data[index]._key = key;
+	_data[index]._value = value;
+	_data[index]._status = Pair::Status::OCCUPIED;
+}
