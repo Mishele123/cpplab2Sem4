@@ -176,3 +176,20 @@ Val* HashTable<Key, Val>::search(Key key)
 	}
 	return nullptr;
 }
+
+
+template <typename Key, typename Val>
+bool HashTable<Key, Val>::erase(Key key)
+{
+	size_t index = HashFunction(key);
+	while (_data[index]._status != Pair::Status::EMPTY) 
+	{
+		if (_data[index]._status == Pair::Status::OCCUPIED && _data[index]._key == key) 
+		{
+			_data[index]._status = Pair::Status::DELETED;
+			return true;
+		}
+		index = (index + 1) % _data.size();
+	}
+	return false;
+}
