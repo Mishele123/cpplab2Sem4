@@ -136,6 +136,7 @@ bool HashTable<Key, Val>::contains(Val value) const
 	return false;
 }
 
+
 template <typename Key, typename Val>
 void HashTable<Key, Val>::insert_or_assign(Key key, Val value)
 {
@@ -158,4 +159,20 @@ void HashTable<Key, Val>::insert_or_assign(Key key, Val value)
 	_data[index]._key = key;
 	_data[index]._value = value;
 	_data[index]._status = Pair::Status::OCCUPIED;
+}
+
+
+template <typename Key, typename Val>
+Val* HashTable<Key, Val>::search(Key key)
+{
+	size_t index = HashFunction(key);
+	while (_data[index]._status != Pair::Status::EMPTY) 
+	{
+		if (_data[index]._status == Pair::Status::OCCUPIED && _data[index]._key == key) 
+		{
+			return &_data[index]._value;
+		}
+		index = (index + 1) % _data.size();
+	}
+	return nullptr;
 }

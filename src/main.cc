@@ -20,6 +20,9 @@ int main()
 
 	_table.insert_or_assign(1, "400");
 	_table.print();
+	std::cout << std::endl;
+
+	std::cout << _table.search(2) << " = " << *_table.search(2) << std::endl;
 
 	return 0;
 }
