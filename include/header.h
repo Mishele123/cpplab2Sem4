@@ -28,7 +28,7 @@ public:
 	bool contains(Val value) const;
 	Val* search(Key key);
 	bool erase(Key key);
-	int count(Key key) const;
+	size_t count(Key key) const;
 	void rehash();
 	double load_factor() const;
 };
@@ -192,4 +192,21 @@ bool HashTable<Key, Val>::erase(Key key)
 		index = (index + 1) % _data.size();
 	}
 	return false;
+}
+
+
+template <typename Key, typename Val>
+size_t HashTable<Key, Val>::count(Key key) const
+{
+	size_t count = 0;
+	size_t index = HashFunction(key);
+	while (_data[index]._status != Pair::Status::EMPTY) 
+	{
+		if (_data[index]._status == Pair::Status::OCCUPIED && _data[index]._key == key) 
+		{
+			count++;
+		}
+		index = (index + 1) % _data.size();
+	}
+	return count;
 }

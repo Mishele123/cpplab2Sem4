@@ -33,5 +33,22 @@ int main()
 	_table.erase(2);
 	_table.print();
 
+	std::cout << std::endl;
+
+	_table.insert(3, "700");
+	_table.insert(5, "800");
+	_table.insert(0, "1200");
+	_table.insert(8, "1230");
+	_table.print();
+
+	std::cout << "Для таблицы метод count(2) выведет:" << std::endl;
+	std::cout << _table.count(2) << std::endl;
+	
+	std::cout << "Для таблицы метод count(1) выведет:" << std::endl;
+	std::cout << _table.count(1) << std::endl;
+	
+	std::cout << "Для таблицы метод count(3) выведет:" << std::endl;
+	std::cout << _table.count(3) << std::endl;
+
 	return 0;
 }
