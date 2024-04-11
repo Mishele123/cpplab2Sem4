@@ -5,7 +5,9 @@
 
 int main()
 {
-	std::cout << HashFunction(125) << std::endl;
+	HashTable<int, std::string> _table(100);
+
+	_table.print();
 
 	return 0;
 }
