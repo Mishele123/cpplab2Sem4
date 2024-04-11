@@ -32,6 +32,20 @@ public:
 	double load_factor() const;
 };
 
+size_t HashFunction(int key)
+{
+	const int w = 32;
+	const int l = 8;
+	const float A = 0.6;
+	float hashedValue = key * A;
+	hashedValue = fmod(hashedValue, pow(2, w));
+
+	// hashedValue >>= (w - l);
+	hashedValue *= pow(2, -(w - l));
+
+	return size_t(hashedValue);
+}
+
 
 template <typename Key, typename Val>
 HashTable<Key, Val>::HashTable(size_t size) : _data(size) {}
@@ -78,9 +92,9 @@ template <typename Key, typename Val>
 void HashTable<Key, Val>::rehash()
 {
 	std::vector<Pair> newData(_data.size() * 2);
-	for (auto& pair : newData)
+	for (auto& pair : _data)
 	{
-		if (pair._status == Pair::Status::OCCUPED)
+		if (pair._status == Pair::Status::OCCUPIED)
 		{
 			size_t index = HashFunction(pair._key);
 			while (newData[index]._status != Pair::Status::EMPTY)
@@ -107,20 +121,6 @@ void HashTable<Key, Val>::insert(Key key, Val value)
 
 	_data[index]._key = key;
 	_data[index]._value = value;
-	_data[index]._status = Status::OCCUPIED;
+	_data[index]._status = Pair::Status::OCCUPIED;
 }
 
-
-size_t HashFunction(int key)
-{
-	const int w = 32;
-	const int l = 8;
-	const float A = 0.6;
-	float hashedValue = key * A;
-	hashedValue = fmod(hashedValue, pow(2, w));
-
-	// hashedValue >>= (w - l);
-	hashedValue *= pow(2, -(w - l));
-
-	return size_t(hashedValue);
-}
