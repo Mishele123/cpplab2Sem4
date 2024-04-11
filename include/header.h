@@ -24,6 +24,7 @@ public:
 	HashTable& operator=(const HashTable& other);
 	void print() const;
 	void insert(Key key, Val value);
+	void insert_or_assign(Key key, Val value);
 	bool contains(Val value) const;
 	Val* search(Key key);
 	bool erase(Key key);
@@ -124,3 +125,13 @@ void HashTable<Key, Val>::insert(Key key, Val value)
 	_data[index]._status = Pair::Status::OCCUPIED;
 }
 
+template <typename Key, typename Val>
+bool HashTable<Key, Val>::contains(Val value) const
+{
+	for (auto& pair : _data)
+	{
+		if (pair._status == Pair::Status::OCCUPIED && pair._value == value)
+			return true;
+	}
+	return false;
+}
