@@ -19,6 +19,7 @@ class HashTable
 
 	std::vector<Pair> _data;
 public:
+	HashTable();
 	HashTable(size_t size);
 	HashTable(const HashTable& other);
 	HashTable& operator=(const HashTable& other);
@@ -32,6 +33,7 @@ public:
 	void rehash();
 	double load_factor() const;
 };
+
 
 template <typename T>
 size_t HashFunction(const T& key)
@@ -230,4 +232,29 @@ size_t HashTable<Key, Val>::count(Key key) const
 		index = (index + 1) % _data.size();
 	}
 	return count;
-}	
+}
+
+// Основное задание
+size_t reHash(const std::string& text)
+{
+	HashTable<char, int> _nums(1);
+	_nums.insert('I', 1);
+	_nums.insert('V', 5);
+	_nums.insert('X', 10);
+	_nums.insert('L', 50);
+	_nums.insert('C', 100);
+	_nums.insert('D', 500);
+	_nums.insert('M', 1000);
+	int res = 0;
+	for (int i = 0; i < text.size() - 1; i++)
+	{
+		if (*_nums.search(text[i]) < *_nums.search(text[i + 1]))
+			res -= *_nums.search(text[i]);
+		else
+			res += *_nums.search(text[i]);
+	}
+
+	res += *_nums.search(text[text.size() - 1]);
+
+	return res;
+}

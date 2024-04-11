@@ -57,5 +57,7 @@ int main()
 	_table1.print();
 	std::cout << "_table1 search(300) = " << *_table1.search("300") << std::endl;
 
+	std::cout << reHash("MLIXV") << std::endl;
+
 	return 0;
 }
