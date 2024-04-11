@@ -43,12 +43,19 @@ int main()
 
 	std::cout << "Для таблицы метод count(2) выведет:" << std::endl;
 	std::cout << _table.count(2) << std::endl;
-	
 	std::cout << "Для таблицы метод count(1) выведет:" << std::endl;
 	std::cout << _table.count(1) << std::endl;
-	
-	std::cout << "Для таблицы метод count(3) выведет:" << std::endl;
-	std::cout << _table.count(3) << std::endl;
+	std::cout << "Для таблицы метод count(1) выведет:" << std::endl;
+	std::cout << _table.count(1) << std::endl;
+
+
+	HashTable<std::string, int> _table1(100);
+
+	_table1.insert("100", 1);
+	_table1.insert("300", 3);
+	_table1.insert("200", 2);
+	_table1.print();
+	std::cout << "_table1 search(300) = " << *_table1.search("300") << std::endl;
 
 	return 0;
 }
