@@ -9,7 +9,12 @@ class HashTable
 	{
 		Key _key;
 		Val _value;
-		bool _empty;
+		enum class Status
+		{
+			EMPTY, OCCUPIED, DELETED
+		} _status;
+
+		Pair() : _status(EMPTY) {}
 	};
 
 	std::vector<Pair> _data;
@@ -48,7 +53,7 @@ void HashTable<Key, Val>::print() const
 {
 	for (const auto& pair : _data)
 	{
-		if (pair._empty == true)
+		if (pair._status == Pair::OCCUPIED)
 			std::cout << pair._key << " : " << pair._value << std::endl;
 	}
 }
