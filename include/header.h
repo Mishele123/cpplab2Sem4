@@ -101,7 +101,13 @@ void HashTable<Key, Val>::insert(Key key, Val value)
 	}
 	size_t index = HashFunction(key);
 	size_t originalIndex = index;
+	
+	while (_data[index]._status == Pair::Status::OCCUPIED || _data[index]._status == Pair::Status::DELETED)
+		index = (index + 1) % _data.size();
 
+	_data[index]._key = key;
+	_data[index]._value = value;
+	_data[index]._status = Status::OCCUPIED;
 }
 
 
